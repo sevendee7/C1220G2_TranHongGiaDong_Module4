@@ -1,10 +1,12 @@
 package com.codegym.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.Optional;
 
 public interface IGeneralService<T> {
-    List<T> findAll();
+    Page<T> findAll(Pageable pageable);
 
     Optional<T> findById(Long id);
 

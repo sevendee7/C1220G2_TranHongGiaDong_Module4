@@ -4,6 +4,8 @@ import com.codegym.entity.Customer;
 import com.codegym.entity.Province;
 import com.codegym.repository.ICustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +17,8 @@ public class CustomerService implements ICustomerService {
     private ICustomerRepository customerRepository;
 
     @Override
-    public List<Customer> findAll() {
-        return customerRepository.findAll();
+    public Page<Customer> findAll(Pageable pageable) {
+        return customerRepository.findAll(pageable);
     }
 
     @Override
@@ -35,7 +37,7 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public List<Customer> findAllByProvince(Province province) {
-        return customerRepository.findAllByProvince(province);
+    public Page<Customer> findAllByProvince(Province province, Pageable pageable) {
+        return customerRepository.findAllByProvince(province, pageable);
     }
 }
