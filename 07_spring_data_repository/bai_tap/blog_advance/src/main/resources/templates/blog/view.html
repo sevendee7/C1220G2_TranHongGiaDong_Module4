@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout :: head"></head>
+<body>
+<h3>Blog's detail</h3>
+<p>
+    <a th:href="@{/static}">
+        Back to blog list
+    </a>
+</p>
+<div th:object="${blog}">
+<table id = "blog">
+    <thead>
+    <tr>
+        <th th:text="*{blogName}"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="*{content}"></td>
+    </tr>
+    <tr>
+        <td>
+            <a th:href="@{/edit/__${blog.id}__}">edit |</a>
+            <a th:href="@{/delete/__${blog.id}__}">delete |</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>

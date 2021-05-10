@@ -99,9 +99,7 @@ public class ProvinceController {
         if(!provinceOptional.isPresent()){
             return new ModelAndView("/error.404");
         }
-
         Page<Customer> customers = customerService.findAllByProvince(provinceOptional.get(), pageable);
-
         ModelAndView modelAndView = new ModelAndView("/province/view");
         modelAndView.addObject("province", provinceOptional.get());
         modelAndView.addObject("customers", customers);

@@ -10,5 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ICustomerRepository extends JpaRepository<Customer, Long> {
+
     Page<Customer> findAllByProvince(Province province, Pageable pageable);
+    
 }
