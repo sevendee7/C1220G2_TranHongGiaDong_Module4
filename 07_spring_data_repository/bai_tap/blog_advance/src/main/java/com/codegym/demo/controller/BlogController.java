@@ -31,10 +31,12 @@ public class BlogController {
     }
 
     @GetMapping
-    public ModelAndView showPage(@PageableDefault(value = 5)Pageable pageable){
-        ModelAndView modelAndView = new ModelAndView("/blog/home");
-        modelAndView.addObject("blogs", blogService.findAll(pageable));
-        return modelAndView;
+    public ModelAndView showPage(@PageableDefault(value = 5)Pageable pageable,@RequestParam Optional<String> search) {
+        if (search.isPresent()) {
+            return new ModelAndView("/home","blogs",blogService.findAllByBlogName(search,pageable));
+        } else {
+            return new ModelAndView("/home","blogs",blogService.findAll(pageable));
+        }
     }
 
     @GetMapping("/create")
