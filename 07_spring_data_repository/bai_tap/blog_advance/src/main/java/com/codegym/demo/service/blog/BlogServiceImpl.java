@@ -24,8 +24,8 @@ public class BlogServiceImpl implements IBlogService {
     }
 
     @Override
-    public Optional<Blog> findById(Long id) {
-        return blogRepository.findById(id);
+    public Blog findById(Long id) {
+        return blogRepository.findById(id).orElse(null);
     }
 
     @Override

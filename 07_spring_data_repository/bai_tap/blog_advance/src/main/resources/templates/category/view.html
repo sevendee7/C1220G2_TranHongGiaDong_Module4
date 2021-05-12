@@ -11,9 +11,9 @@
     <tr>
         <th>Name</th>
     </tr>
-    <th:block th:each="cate : ${category}">
+    <th:block th:object="${category}">
         <tr>
-            <td th:text="${cate.name}"></td>
+            <td th:text="${category.name}"></td>
         </tr>
     </th:block>
 </table>

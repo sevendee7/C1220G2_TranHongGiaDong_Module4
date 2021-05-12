@@ -9,7 +9,7 @@ public interface IGeneralService<T> {
 
     Page<T> findAll(Pageable pageable);
 
-    Optional<T> findById(Long id);
+    T findById(Long id);
 
     void save(T t);
 

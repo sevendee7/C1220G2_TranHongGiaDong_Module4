@@ -7,7 +7,9 @@ import com.codegym.demo.service.category.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +33,7 @@ public class BlogController {
     }
 
     @GetMapping
-    public ModelAndView showPage(@PageableDefault(value = 5)Pageable pageable,@RequestParam Optional<String> search) {
+    public ModelAndView showPage(@SortDefault(sort = "blogName",direction = Sort.Direction.ASC) @PageableDefault(value = 5)Pageable pageable, @RequestParam Optional<String> search) {
         if (search.isPresent()) {
             return new ModelAndView("/home","blogs",blogService.findAllByBlogName(search,pageable));
         } else {
@@ -54,13 +56,17 @@ public class BlogController {
 
     @GetMapping("/view/{id}")
     public ModelAndView showViewPage(@PathVariable Long id){
-        Optional<Blog> blog = blogService.findById(id);
-        return new ModelAndView("/blog/view","blog",blog);
+        Blog blog = blogService.findById(id);
+        if (blog != null) {
+            return new ModelAndView("/blog/view","blog",blog);
+        } else {
+            return new ModelAndView("home");
+        }
     }
 
     @GetMapping("/edit/{id}")
     public ModelAndView showEditPage(@PathVariable Long id){
-        Optional<Blog> blog = blogService.findById(id);
+        Blog blog = blogService.findById(id);
         return new ModelAndView("/blog/edit","blog",blog);
     }
 
@@ -73,7 +79,7 @@ public class BlogController {
 
     @GetMapping("/delete/{id}")
     public ModelAndView showDeletePage(@PathVariable Long id){
-        Optional<Blog> blog = blogService.findById(id);
+        Blog blog = blogService.findById(id);
         return new ModelAndView("/blog/delete","blog",blog);
     }
 

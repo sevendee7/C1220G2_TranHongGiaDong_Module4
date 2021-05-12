@@ -51,10 +51,10 @@ public class CategoryController {
 
     @GetMapping("/edit-category/{id}")
     public ModelAndView showEditForm(@PathVariable Long id) {
-        Optional<Category> category = categoryService.findById(id);
-        if (category.isPresent()) {
+        Category category = categoryService.findById(id);
+        if (category != null) {
             ModelAndView modelAndView = new ModelAndView("/category/edit");
-            modelAndView.addObject("category", category.get());
+            modelAndView.addObject("category", category);
             return modelAndView;
         } else {
             ModelAndView modelAndView = new ModelAndView("/error.404");
@@ -73,10 +73,10 @@ public class CategoryController {
 
     @GetMapping("/delete-category/{id}")
     public ModelAndView showDeleteForm(@PathVariable Long id) {
-        Optional<Category> category = categoryService.findById(id);
-        if (category.isPresent()) {
+        Category category = categoryService.findById(id);
+        if (category != null) {
             ModelAndView modelAndView = new ModelAndView("/category/delete");
-            modelAndView.addObject("category", category.get());
+            modelAndView.addObject("category", category);
             return modelAndView;
 
         } else {
@@ -93,13 +93,13 @@ public class CategoryController {
 
     @GetMapping("/view-category/{id}")
     public ModelAndView viewProvince(@PathVariable("id") Long id, Pageable pageable) {
-        Optional<Category> categoryOptional = categoryService.findById(id);
-        if (!categoryOptional.isPresent()) {
+        Category categoryOptional = categoryService.findById(id);
+        if (categoryOptional == null) {
             return new ModelAndView("/error.404");
         }
-        Page<Blog> blogs = blogService.findAllByCategory(categoryOptional.get(), pageable);
+        Page<Blog> blogs = blogService.findAllByCategory(categoryOptional, pageable);
         ModelAndView modelAndView = new ModelAndView("/category/view");
-        modelAndView.addObject("category", categoryOptional.get());
+        modelAndView.addObject("category", categoryOptional);
         modelAndView.addObject("blogs", blogs);
         return modelAndView;
     }
