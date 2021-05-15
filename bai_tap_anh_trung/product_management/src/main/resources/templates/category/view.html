@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table, tr, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        table, tr, th {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+<h3>List product</h3>
+<p>
+    <a th:href="@{/category}">
+        Back to category's list
+    </a>
+</p>
+<table border="1" th:object="${category}" >
+    <tr>
+        <th>No</th>
+        <th>Name</th>
+        <th>Price</th>
+    </tr>
+    <th:block th:field="*{productList}">
+        <tr th:each="product,rowsStat : ${listProduct}">
+            <td th:text="${rowsStat.count}"></td>
+            <td  th:text="${product.name}"></td>
+            <td  th:text="${product.price}"></td>
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>
