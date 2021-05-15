@@ -1,5 +1,6 @@
 package com.codegym.controller;
 
+import com.codegym.entity.Cart;
 import com.codegym.entity.Category;
 import com.codegym.entity.Product;
 import com.codegym.service.category.ICategoryService;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@SessionAttributes("cart")
 public class ProductController {
 
     @Autowired
@@ -34,9 +36,28 @@ public class ProductController {
         return categoryService.findAll(pageable);
     }
 
+    @ModelAttribute("cart")
+    public Cart setupCart() {
+        return new Cart();
+    }
+
     @GetMapping("/product")
     public ModelAndView listProduct(@SortDefault(sort = "name", direction = Sort.Direction.ASC) @PageableDefault(value = 5) Pageable pageable) {
         return new ModelAndView("home_product", "products", productService.findAll(pageable));
+    }
+
+    @GetMapping("/cart")
+    public ModelAndView showCart (@SessionAttribute("cart") Cart cart){
+        ModelAndView modelAndView = new ModelAndView("/cart");
+        modelAndView.addObject("cart",cart);
+        return modelAndView;
+    }
+
+    @GetMapping("/add/{id}")
+    public String addToCart(@PathVariable Long id, @ModelAttribute Cart cart, @RequestParam("action") String action) {
+        Product product = productService.findById(id);
+        cart.addProduct(product);
+        return "redirect:/cart";
     }
 
     @GetMapping("/create-product")
@@ -61,27 +82,27 @@ public class ProductController {
     @GetMapping("/edit-product/{id}")
     public ModelAndView editPage(@PathVariable Long id) {
         Product product = productService.findById(id);
-        return new ModelAndView("/product/edit","product",product);
+        return new ModelAndView("/product/edit", "product", product);
     }
 
     @PostMapping("/edit-product")
     public String editProduct(Product product, RedirectAttributes redirectAttributes) {
         productService.save(product);
-        redirectAttributes.addFlashAttribute("message","Product updated !");
+        redirectAttributes.addFlashAttribute("message", "Product updated !");
         return "redirect:/product";
     }
 
     @GetMapping("/delete-product/{id}")
     public ModelAndView deletePage(@PathVariable Long id) {
         Product product = productService.findById(id);
-        return new ModelAndView("/product/delete","product",product);
+        return new ModelAndView("/product/delete", "product", product);
     }
 
     @PostMapping("/delete-product")
     public String deleteProduct(Product product, @RequestParam String submit, RedirectAttributes redirectAttributes) {
         if (submit.equals("Delete")) {
             productService.remove(product.getId());
-            redirectAttributes.addFlashAttribute("message","Product has been deleted !");
+            redirectAttributes.addFlashAttribute("message", "Product has been deleted !");
         }
         return "redirect:/product";
     }

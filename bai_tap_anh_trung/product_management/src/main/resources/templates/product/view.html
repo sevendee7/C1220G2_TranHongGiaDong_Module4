@@ -34,6 +34,9 @@
             <td>Detail : </td>
             <td th:text="${product.productDetail.description}"></td>
         </tr>
+        <tr>
+            <td><a th:href="@{/add/__${product.id}__(action='list')}">Add To Cart</a></td>
+        </tr>
     </table>
 </body>
 </html>
