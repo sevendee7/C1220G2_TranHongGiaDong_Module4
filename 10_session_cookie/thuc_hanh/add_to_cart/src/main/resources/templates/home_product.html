@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{layout::head}"></head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-12" th:insert="~{layout::menu}"></div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="row ">
+                <div class="col-7"><h3>Product Menu</h3></div>
+                <div class="col-5">
+                    <button class="btn btn-primary">
+                        <a th:href="@{/create-product}" style="color: white">Add new product</a>
+                    </button>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <th:block th:if="${message}">
+                        <h4 th:text="${message}"></h4>
+                    </th:block>
+                </div>
+            </div>
+            <div class="row col-12">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Product's name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${products}">
+                        <td th:text="${product.name}"></td>
+                        <td th:text="${product.description}"></td>
+                        <td th:text="${product.price}"></td>
+
+                        <td><a th:href="@{/edit-product/__${product.id}__}">Edit</a></td>
+                        <td><a th:href="@{/delete-product/__${product.id}__}">Delete</a></td>
+                        <td><a th:href="@{/view-product/__${product.id}__}">View</a></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    <a th:href="@{'/'(page=${products.number - 1})}" th:if="${products.hasPrevious()}">Previous</a>
+    <span th:text="${products.number + 1}"></span>/<span th:text="${products.totalPages}"></span>
+    <a th:href="@{'/'(page=${products.number + 1})}" th:ìf="${products.hasNext()}">Next</a>
+</div>
+</body>
+</html>
