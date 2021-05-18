@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @Controller
 public class BlogController {
-
+    private static int quantity = 2;
     @Autowired
     private IBlogService blogService;
 
@@ -30,19 +30,24 @@ public class BlogController {
 
     @ModelAttribute("categories")
     public List<Category> categories() {
-        return categoryService.findAll();
+        return categoryService.findAll(2);
     }
 
     @GetMapping
     public ModelAndView showPage() {
-        return new ModelAndView("/home", "blogs", blogService.findAll());
+        return new ModelAndView("/home", "blogs", blogService.findAll(2));
     }
 
+    @GetMapping("/more-blog")
+    public ModelAndView getMore(){
+        quantity += 2;
+        return new ModelAndView("/more","blogs",blogService.findAll(quantity));
+    }
 
     @GetMapping("/search/{keyword}")
     public ModelAndView showSearchList(@PathVariable String keyword) {
         if ("".equals(keyword)) {
-            return new ModelAndView("/search", "blogs", blogService.findAll());
+            return new ModelAndView("/search", "blogs", blogService.findAll(3));
         }
         return new ModelAndView("/search", "blogs", blogService.findAllByBlogName(keyword));
 

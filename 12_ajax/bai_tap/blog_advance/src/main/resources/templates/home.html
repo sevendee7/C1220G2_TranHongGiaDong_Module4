@@ -117,6 +117,7 @@
     </tr>
     </tbody>
 </table>
+<button id="more" type="button">More</button>
 </body>
 <footer th:fragment="footer">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -146,6 +147,18 @@
             event.preventDefault();
         });
     });
-
+    $(document).ready(function () {
+        $("#more").click(function (event) {
+            $.ajax({
+                type: "GET",
+                url: "/more-blog",
+                dataType: "HTML",
+                success: function (data) {
+                    $("#blog").html(data)
+                }
+            })
+            event.preventDefault();
+        })
+    })
 </script>
 </html>

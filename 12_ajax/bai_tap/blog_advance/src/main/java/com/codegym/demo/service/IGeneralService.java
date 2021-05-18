@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface IGeneralService<T> {
 
-    List<T> findAll();
+    List<T> findAll(int quantity);
 
     T findById(Long id);
 

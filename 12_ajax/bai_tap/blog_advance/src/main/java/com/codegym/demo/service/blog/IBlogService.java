@@ -5,8 +5,6 @@ import com.codegym.demo.entity.Category;
 import com.codegym.demo.service.IGeneralService;
 
 import java.util.List;
-import java.util.Optional;
-
 
 public interface IBlogService extends IGeneralService<Blog> {
 

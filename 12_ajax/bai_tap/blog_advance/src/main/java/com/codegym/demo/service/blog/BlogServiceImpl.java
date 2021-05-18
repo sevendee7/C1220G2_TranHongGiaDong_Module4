@@ -15,8 +15,8 @@ public class BlogServiceImpl implements IBlogService {
     private IBlogRepository blogRepository;
 
     @Override
-    public List<Blog> findAll() {
-        return blogRepository.findAll();
+    public List<Blog> findAll(int limit) {
+        return blogRepository.getBlogs(limit);
     }
 
     @Override
@@ -43,4 +43,5 @@ public class BlogServiceImpl implements IBlogService {
     public List<Blog> findAllByBlogName(String name) {
         return blogRepository.findAllByBlogNameContains(name);
     }
+
 }

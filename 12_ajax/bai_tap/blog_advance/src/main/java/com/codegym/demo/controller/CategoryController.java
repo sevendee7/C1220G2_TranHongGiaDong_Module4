@@ -29,7 +29,7 @@ public class CategoryController {
     @GetMapping("/category")
     public ModelAndView listCategory() {
         ModelAndView modelAndView = new ModelAndView("/category/list");
-        modelAndView.addObject("category", categoryService.findAll());
+        modelAndView.addObject("category", categoryService.findAll(3));
         return modelAndView;
     }
 

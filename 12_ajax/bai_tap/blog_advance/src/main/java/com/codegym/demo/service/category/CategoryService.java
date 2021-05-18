@@ -17,7 +17,7 @@ public class CategoryService implements ICategoryService{
     private ICategoryRepository categoryRepository;
 
     @Override
-    public List<Category> findAll() {
+    public List<Category> findAll(int quantity) {
         return categoryRepository.findAll();
     }
 
@@ -35,4 +35,5 @@ public class CategoryService implements ICategoryService{
     public void remove(Long id) {
         categoryRepository.deleteById(id);
     }
+
 }
