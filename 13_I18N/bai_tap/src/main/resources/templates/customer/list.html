@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3 th:text="#{header_list}"></h3>
+<br>
+<a href="?lang=en" th:text="#{lang_en}"></a> | <a href="?lang=vi" th:text="#{lang_vi}"></a>
+<br><br>
+<a th:href="@{/create-customer}" th:text="#{func_add}"></a>
+<br><br>
+<table id="customers">
+    <thead>
+    <tr>
+        <th th:text="#{customer_name}"></th>
+        <th th:text="#{customer_email}"></th>
+        <th th:text="#{customer_address}"></th>
+        <th th:text="#{func_edit}"></th>
+        <th th:text="#{func_delete}"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="row,rowStat : ${customers}">
+        <td th:text="${row.name}"></td>
+        <td th:text="${row.email}"></td>
+        <td th:text="${row.address}"></td>
+        <td><a th:href="@{/{id}/edit(id=${row.id})}" th:text="#{func_edit}"></a></td>
+        <td><a th:href="@{/{id}/delete(id=${row.id})}" th:text="#{func_delete}"></a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
