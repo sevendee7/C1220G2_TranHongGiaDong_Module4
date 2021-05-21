@@ -34,8 +34,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+//                người không đăng nhập có quyền xem blog và truy cập trang chủ
                 .antMatchers("/","/login").permitAll()
+//                member có quyền chỉnh sửa blog
                 .antMatchers("/member/**").hasRole("MEMBER")
+//                admin có quyền xóa blog
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .and()
                 .formLogin()
