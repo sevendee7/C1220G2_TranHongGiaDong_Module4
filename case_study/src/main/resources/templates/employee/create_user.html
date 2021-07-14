@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header::header}">
+</head>
+<body>
+<a th:href="@{/employee}"><i class="fas fa-arrow-circle-left"></i>  Back to Employee's list</a>
+<div class="h-auto" id="header-background">
+    <div class="row head" style="background-image: url('/head-logo.png'); background-repeat: no-repeat;">
+        <div class="col-3">
+            <img src="/logo.png" alt="Logo" >
+        </div>
+        <div class="col-6"></div>
+        <div class="col-3 text-center" style="line-height: 150px; font-size: 20px">
+            <b>Tran Hong Gia Dong - C1220G2</b>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <form th:action="@{/employee/user/save}" th:object="${user}"
+          method="POST" novalidate="novalidate">
+        <h3 style="text-align: center; background-color: steelblue">Create User</h3>
+<!--        <div th:if="${success}">-->
+<!--            <h1 style="color: darkblue; text-align: center" th:text="${success}"></h1>-->
+<!--        </div>-->
+        <div class="form-group">
+            <label for="name">Username</label>
+            <th:block th:field="*{username}">
+            <input type="text" class="form-control" name="username" id="name" th:value="${employeeExist.email}" readonly/>
+            </th:block>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" th:field="*{password}">
+        </div>
+<!--        <div class="form-group">-->
+<!--            <label for="role">Role</label>-->
+<!--            <select class="form-control" id="role" th:field="*{roles}">-->
+<!--                <option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.name}"></option>-->
+<!--            </select>-->
+<!--        </div>-->
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<footer th:replace="~{layout/footer :: footer}"></footer>
+</body>
+</html>

@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Optional;
-
 @Controller
 public class CategoryController {
 
@@ -100,7 +98,7 @@ public class CategoryController {
         Page<Blog> blogs = blogService.findAllByCategory(categoryOptional, pageable);
         ModelAndView modelAndView = new ModelAndView("/category/view");
         modelAndView.addObject("category", categoryOptional);
-        modelAndView.addObject("blogs", blogs);
+        modelAndView.addObject("listBlogs", blogs);
         return modelAndView;
     }
 }

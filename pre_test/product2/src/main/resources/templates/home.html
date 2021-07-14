@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://kit.fontawesome.com/6d7b60da21.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+</head>
+<body>
+<div align="center">
+    <h3>PRODUCT LIST</h3>
+    <div th:if="${success}">
+        <h1 th:text="${success}"></h1>
+    </div>
+    <a th:href="@{/search-top-5}">Top 5 most expensive products</a>
+    <br>
+    <a th:href="@{/create}">Create new product</a>
+    <br>
+    <div>
+        <form th:action="@{/page/1}">
+            <input type="hidden" name="sortField" th:value="${sortField}"/>
+            <input type="hidden" name="sortDir" th:value="${sortDir}"/>
+            <input type="search" name="name" th:value="${name}" placeholder="Search by name"/>
+            <input type="search" name="brand" th:value="${brand}" placeholder="Search by brand"/>
+            <select id="cate" name="categoryName">
+                <option th:value="null">Choose category</option>
+                <option th:each="cate : ${categories}" th:value="${cate.name}" th:text="${cate.name}"
+                        th:selected="${cate.name==categoryName}"></option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <table style="border: 1px solid black; border-collapse: collapse">
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">Product
+                    ID <i class="fas fa-sort"></i></a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">Name <i
+                        class="fas fa-sort"></i></a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=brand&sortDir=' + ${reverseSortDir}}">Brand <i
+                        class="fas fa-sort"></i></a>
+            </th>
+            <th>
+                <a th:href="@{'/page/' + ${currentPage} + '?sortField=price&sortDir=' + ${reverseSortDir}}">Price <i
+                        class="fas fa-sort"></i></a>
+            </th>
+            <th>Category</th>
+            <th colspan="3">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product,rowStat : ${products}">
+            <td th:text="${rowStat.count}"></td>
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.brand}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.category.name}"></td>
+            <td>
+                <a th:href="@{/edit/__${product.id}__}">Edit</a
+                ></td>
+            <td>View</td>
+            <td>
+                <button type="button" class="delete btn btn-danger runModal" th:data-id="${product.id}"
+                        data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash"></i> Delete
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!--MODAL BODY-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div align="center">
+    Total Items: <span th:text="${totalItems}"></span> - Page: <span th:text="${currentPage}"></span> of <span
+        th:text="${totalPages}"></span> &nbsp;
+    <a th:if="${currentPage>1}" th:href="@{'/page/1'+'?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+    <span th:unless="${currentPage>1}">First</span>
+    &nbsp;
+    <a th:if="${currentPage > 1}"
+       th:href="@{'/page/' + ${currentPage - 1}+'?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+    <span th:unless="${currentPage > 1}">Previous</span>
+    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+            <a th:if="${currentPage != i}"
+               th:href="@{'/page/' + ${i}+'?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}+${name !=null ?'&name='+name:''}}">[[${i}]]</a>
+            <span th:unless="${currentPage != i}">[[${i}]]</span>
+        &nbsp;
+    </span>
+    &nbsp;&nbsp;
+    <a style="color: blue" th:if="${currentPage < totalPages}"
+       th:href="@{'/page/' + ${currentPage + 1}+'?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+    <span th:unless="${currentPage < totalPages}">Next</span>
+    <a th:if="${currentPage < totalPages}"
+       th:href="@{'/page/' + ${totalPages} +'?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+    <span th:unless="${currentPage < totalPages}">Last</span>
+</div>
+</body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".runModal").click(function (event) {
+            let id = $(this).data("id");
+            console.log(id);
+            $.ajax({
+                type: "GET",
+                url: `/delete/${id}`,
+                dataType: "HTML",
+                success: function (data) {
+                    $("#modalBody").html(data);
+                }
+            })
+            event.preventDefault();
+        })
+    })
+</script>
+</html>

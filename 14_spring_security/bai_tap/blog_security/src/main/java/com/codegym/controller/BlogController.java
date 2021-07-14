@@ -44,7 +44,6 @@ public class BlogController {
             return new ModelAndView("/search", "blogs", blogService.findAll(3));
         }
         return new ModelAndView("/search", "blogs", blogService.findAllByBlogName(keyword));
-
     }
 
     @GetMapping("/member/create")

@@ -35,20 +35,21 @@ public class SecurityController {
     IRoleService roleService;
 
     @GetMapping("/login")
-    public String getLoginPage(Model model){
+    public String getLoginPage(Model model) {
         return "authentication/login";
     }
 
 
     @GetMapping("/register")
-    public ModelAndView getRegisterPage(){
-        return new ModelAndView("authentication/register","registerUser",new UserDto());
+    public ModelAndView getRegisterPage() {
+        return new ModelAndView("authentication/register", "registerUser", new UserDto());
     }
+
     @PostMapping("/register")
-    public String registerUser(@Validated @ModelAttribute("registerUser") UserDto registerUser, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
+    public String registerUser(@Validated @ModelAttribute("registerUser") UserDto registerUser, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "authentication/register";
-        }else {
+        } else {
             User user = new User();
             user.setEmail(registerUser.getEmail());
             user.setPassword(EncrypPasswordUtils.EncrypPasswordUtils(registerUser.getPassword()));
@@ -62,12 +63,12 @@ public class SecurityController {
     }
 
     @GetMapping("/403")
-    public String getPage403(){
+    public String getPage403() {
         return "authentication/403";
     }
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response){
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);

@@ -3,17 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>View category</title>
+    <style>
+        table, tr, td {
+            border: 1px solid black;
+        }
+    </style>
 </head>
 <body>
 <h1>View category: <span th:text="${category.name}"></span></h1>
 <a href="/category">Category list</a>
-<table border="1">
+<table border="1" th:object="${category}" >
     <tr>
-        <th>Name</th>
+        <th>No</th>
+        <th>Blog</th>
     </tr>
-    <th:block th:object="${category}">
-        <tr>
-            <td th:text="${category.name}"></td>
+    <th:block th:field="*{blogs}">
+        <tr th:each="blog,no : ${listBlogs}">
+            <td th:text="${no.count}"></td>
+            <td  th:text="${blog.blogName}"></td>
         </tr>
     </th:block>
 </table>

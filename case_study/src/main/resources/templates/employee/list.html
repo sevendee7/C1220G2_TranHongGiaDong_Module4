@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{layout/header::header}">
+    <style>
+        body {
+            background-image: url("/tropical-beach-and-palm-trees-1200x627.jpg");
+            background-position: right bottom;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-attachment: fixed;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="row head" style="background-image: url('/head-logo.png'); background-repeat: no-repeat;">
+    <div class="col-3">
+        <img src="/logo.png" alt="Logo">
+    </div>
+    <div class="col-6"></div>
+    <div class="col-3 text-center" style="line-height: 150px; font-size: 20px">
+<!--        Welcome: <b><span sec:authentication="name">Username</span></b>-->
+<!--        <span sec:authentication="principal.authorities">Roles</span>-->
+<!--        <form th:action="@{/logout}" method="post">-->
+<!--            <input type="submit" value="Logout">-->
+<!--        </form>-->
+        <b>Tran Hong Gia Dong - C1220G2</b>
+    </div>
+</div>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-info">
+        <a class="navbar-brand" href="#" style="margin: 0 20px">Employee's list </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" style="margin: 0 20px" th:href="@{/}"><i class="fas fa-home"></i>  Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" style="margin: 0 20px" th:href="@{/employee/create}"><i class="fas fa-plus-circle"></i>  Create New Employee <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <form th:action="@{/employee/search}" class="form-inline my-2 my-lg-0" method="get">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search by name" aria-label="Search" name="keyword">
+                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit" style="color: #212529">Search</button>
+            </form>
+        </div>
+    </nav>
+</div>
+<div class="notify">
+    <!--    /*@thymesVar id="success" type="AppConfiguration"*/-->
+    <div th:if="${success}">
+        <h1 style="color: steelblue; text-align: center" th:text="${success}"></h1>
+    </div>
+</div>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+        <th>No</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Date of Birth</th>
+        <th>ID Card</th>
+        <th>Salary</th>
+        <th>Phone Number</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>Position</th>
+        <th>Education</th>
+        <th>Department</th>
+<!--        <th colspan="2" style="text-align: center" sec:authorize="hasAuthority('ROLE_USER')">Action</th>-->
+<!--        <th sec:authorize="hasAnyAuthority('ROLE_USER','MEMBER')" >View</th>-->
+        <th colspan="3">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employee,rowStat : ${listEmployee}">
+        <td th:text="${rowStat.count}"></td>
+        <td th:text="${employee.id}"></td>
+        <td th:text="${employee.name}"></td>
+        <td th:text="${employee.birthday}"></td>
+        <td th:text="${employee.idCard}"></td>
+        <td th:text="${employee.salary}"></td>
+        <td th:text="${employee.phone}"></td>
+        <td th:text="${employee.email}"></td>
+        <td th:text="${employee.address}"></td>
+        <td th:text="${employee.position.name}"></td>
+        <td th:text="${employee.educationBackground.title}"></td>
+        <td th:text="${employee.department.name}"></td>
+<!--        <td sec:authorize="hasAuthority('ROLE_USER')">-->
+        <td>
+        <a th:href="@{/edit/__${employee.id}__}"><i class="fas fa-edit"></i>Edit</a>
+        </td>
+        <td>
+<!--        <td sec:authorize="hasAnyAuthority('ROLE_USER','MEMBER')">-->
+            <a th:href="@{/view/__${employee.id}__}"><i class="fas fa-eye"></i>View</a>
+        </td>
+        <td>
+            <!--        <td sec:authorize="hasAuthority('ROLE_USER')">-->
+            <button type="button" class="delete btn btn-danger runModal" th:data-id="${employee.id}" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash"></i>  Delete</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!--MODAL BODY-->
+            </div>
+        </div>
+    </div>
+</div>
+<div style="text-align: center">
+    <a th:href="@{'/employee/'(page=${listEmployee.number - 1})}" th:if="${listEmployee.hasPrevious()}">Previous  <i class="fas fa-arrow-left"></i></a>
+    <span th:text="${listEmployee.number + 1}"></span>/<span th:text="${listEmployee.totalPages}"></span>
+    <a th:href="@{'/employee/'(page=${listEmployee.number + 1})}" th:if="${listEmployee.hasNext()}"><i class="fas fa-arrow-right"></i>  Next</a>
+</div>
+</body>
+<footer th:replace="~{layout/footer :: footer}"></footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".runModal").click(function (event) {
+            let id = $(this).data("id");
+            console.log(id);
+            $.ajax({
+                type: "GET",
+                url: `/employee/delete/${id}`,
+                dataType: "HTML",
+                success: function (data) {
+                    $("#modalBody").html(data);
+                }
+            })
+            event.preventDefault();
+        })
+    })
+</script>
+</html>

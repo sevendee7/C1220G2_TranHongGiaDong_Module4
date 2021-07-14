@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header::header}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <form th:action="@{/save}" th:object="${discount}"
+          method="POST" novalidate="novalidate">
+        <h3 style="text-align: center; background-color: steelblue">Create Discount</h3>
+        <div th:if="${success}">
+            <h1 style="color: darkblue; text-align: center" th:text="${success}"></h1>
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" aria-describedby="emailHelp" th:field="*{name}">
+            <p style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+        </div>
+        <div class="form-group">
+            <label for="start">Start Date</label>
+            <input type="date" class="form-control" id="start" th:field="*{startDate}">
+            <p style="color: red" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>
+        </div>
+        <div class="form-group">
+            <label for="endDate">End Date</label>
+            <input type="date" class="form-control" id="endDate" th:field="*{endDate}">
+            <p style="color: red" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></p>
+        </div>
+        <div class="form-group">
+            <label for="amount">Discount Amount</label>
+            <input type="text" class="form-control" id="amount" th:field="*{amount}">
+            <p style="color: red" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></p>
+        </div>
+        <div class="form-group">
+            <label for="detail">Discount Detail</label>
+            <input type="text" class="form-control" id="detail" th:field="*{detail}">
+            <p style="color: red" th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}"></p>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</body>
+</html>

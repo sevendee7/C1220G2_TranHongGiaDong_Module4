@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header::header}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--HEADER-->
+<div class="row head"
+     style="background-image: url('/Header-background-image-1920-358.jpg'); background-repeat: no-repeat;">
+    <div class="col-3">
+        <img src="/logo.png" alt="Logo">
+    </div>
+    <div class="col-6"></div>
+    <div class="col-3 text-center" style="line-height: 150px; font-size: 20px">
+        <b>Tran Hong Gia Dong - C1220G2</b>
+    </div>
+</div>
+<!--NAV BAR-->
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-info">
+        <a class="navbar-brand" href="#" style="margin: 0 20px">DISCOUNT LIST </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" style="margin: 0 20px" th:href="@{/}">
+                        <i class="fas fa-home"></i>  Home </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" style="margin: 0 20px" th:href="@{/create}"><i class="fas fa-plus-circle"></i>
+                        Create New Discount <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <form th:action="@{/search}" class="form-inline my-2 my-lg-0" method="get">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search by name" aria-label="Search"
+                       name="amount">
+                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit" style="color: #212529">Search</button>
+            </form>
+        </div>
+    </nav>
+</div>
+<div class="container-fluid">
+    <table class="table table-striped">
+        <p style="color: red; text-align: center" th:text="${success}"></p>
+        <thead>
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Title</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Discount Amount</th>
+            <th scope="col">Detail</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="discount,rowStat : ${listDiscount}">
+            <td th:text="${discount.id}"></td>
+            <td th:text="${discount.name}"></td>
+            <td th:text="${#dates.format(discount.startDate, 'dd-MM-yyyy')}"></td>
+            <td th:text="${#dates.format(discount.endDate, 'dd-MM-yyyy')}"></td>
+            <td th:text="${discount.amount}"></td>
+            <td th:text="${discount.detail}"></td>
+            <td>
+                <button type="button" class="delete btn btn-danger runModal" th:data-id="${discount.id}"
+                        data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash"></i> Delete
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Discount</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!--MODAL BODY-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".runModal").click(function (event) {
+            let id = $(this).data("id");
+            console.log(id);
+            $.ajax({
+                type: "GET",
+                url: `/delete/${id}`,
+                dataType: "HTML",
+                success: function (data) {
+                    $("#modalBody").html(data);
+                }
+            })
+            event.preventDefault();
+        })
+    })
+</script>
+</html>
+</html>

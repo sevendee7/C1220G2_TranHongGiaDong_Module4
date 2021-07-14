@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header::header}"></head>
+<body>
+<div class="container-fluid">
+    <div class="h-auto" id="header-background">
+        <div class="row head" style="background-image: url('/head-logo.png'); background-repeat: no-repeat;">
+            <div class="col-3">
+                <img src="/logo.png" alt="Logo">
+            </div>
+            <div class="col-6"></div>
+            <div class="col-3 text-center" style="line-height: 150px; font-size: 20px">
+                <b>Tran Hong Gia Dong - C1220G2</b>
+            </div>
+        </div>
+    </div>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-info">
+            <a class="navbar-brand text-light" th:href="@{/}">Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link text-light" th:href="@{/customer}"> Customer <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link text-light" th:href="@{/employee}"> Employee <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+            </div>
+            <a class="nav-link text-light" th:href="@{/login}"> Login <span class="sr-only">(current)</span></a>
+        </nav>
+    </div>
+    <div class="container-fluid" style="background-image: url('/background.jpeg');height: 1080px">
+        <aside class="d-flex justify-content-center align-items-center">
+            <article class="col-md-4" style="background-color: mediumaquamarine;margin-top: 300px">
+                <a th:href="@{/register}" class="float-right btn btn-outline-warning"
+                   style="background-color: orange;color: black">Authorize Account</a>
+                <h4 class="card-title mb-4 mt-1">Login</h4>
+                <hr>
+                <form th:action="@{/login}" method="post">
+                    <p th:if="${param.error}" class="text-danger" style="text-align: center">Login failed</p>
+                    <div class="form-group">
+                        <input name="username" class="form-control" placeholder="Enter username" type="email">
+                    </div> <!-- form-group// -->
+                    <div class="form-group">
+                        <input class="form-control" name="password" placeholder="Enter password" type="password">
+                    </div> <!-- form-group// -->
+                    <div class="col-12">
+                        <input type="checkbox" name="remember-me"> Remember me
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-warning btn-block"> Login</button>
+                            </div> <!-- form-group// -->
+                        </div>
+                    </div> <!-- .row// -->
+                </form>
+            </article>
+        </aside> <!-- col.// -->
+    </div>
+    <div style="height: 100px"></div>
+</div>
+</body>
+</html>

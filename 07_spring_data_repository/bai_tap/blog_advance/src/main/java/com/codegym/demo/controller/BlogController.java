@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Optional;
-
 @Controller
 public class BlogController {
 
@@ -33,61 +31,69 @@ public class BlogController {
     }
 
     @GetMapping
-    public ModelAndView showPage(@SortDefault(sort = "blogName",direction = Sort.Direction.ASC) @PageableDefault(value = 5)Pageable pageable, @RequestParam Optional<String> search) {
-        if (search.isPresent()) {
-            return new ModelAndView("/home","blogs",blogService.findAllByBlogName(search,pageable));
+    public ModelAndView showPage(@SortDefault(sort = "blogName", direction = Sort.Direction.ASC) @PageableDefault(value = 5) Pageable pageable, @RequestParam String search) {
+        if (search != null) {
+            if (blogService.findAllByBlogName(search, pageable) != null) {
+                return new ModelAndView("/home", "blogs", blogService.findAllByBlogName(search, pageable));
+            } else {
+                return new ModelAndView("/error");
+            }
         } else {
-            return new ModelAndView("/home","blogs",blogService.findAll(pageable));
+            if (blogService.findAll(pageable) != null) {
+                return new ModelAndView("/home", "blogs", blogService.findAll(pageable));
+            } else {
+                return new ModelAndView("/error");
+            }
         }
     }
 
     @GetMapping("/create")
-    public ModelAndView showCreatePage(){
-        return new ModelAndView("/blog/create","blog",new Blog());
+    public ModelAndView showCreatePage() {
+        return new ModelAndView("/blog/create", "blog", new Blog());
     }
 
     @PostMapping("/save")
-    public String createNewBlog(Blog blog, Model model){
+    public String createNewBlog(Blog blog, Model model) {
         blogService.save(blog);
-        model.addAttribute("blog",new Blog());
-        model.addAttribute("success","Created new blog successfully");
+        model.addAttribute("blog", new Blog());
+        model.addAttribute("success", "Created new blog successfully");
         return "/blog/create";
     }
 
     @GetMapping("/view/{id}")
-    public ModelAndView showViewPage(@PathVariable Long id){
+    public ModelAndView showViewPage(@PathVariable Long id) {
         Blog blog = blogService.findById(id);
         if (blog != null) {
-            return new ModelAndView("/blog/view","blog",blog);
+            return new ModelAndView("/blog/view", "blog", blog);
         } else {
             return new ModelAndView("home");
         }
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView showEditPage(@PathVariable Long id){
+    public ModelAndView showEditPage(@PathVariable Long id) {
         Blog blog = blogService.findById(id);
-        return new ModelAndView("/blog/edit","blog",blog);
+        return new ModelAndView("/blog/edit", "blog", blog);
     }
 
     @PostMapping("/edit")
-    public String editBlog(Blog blog, RedirectAttributes ra){
+    public String editBlog(Blog blog, RedirectAttributes ra) {
         blogService.save(blog);
-        ra.addFlashAttribute("success","Updated blog successfully");
+        ra.addFlashAttribute("success", "Updated blog successfully");
         return "redirect:/";
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView showDeletePage(@PathVariable Long id){
+    public ModelAndView showDeletePage(@PathVariable Long id) {
         Blog blog = blogService.findById(id);
-        return new ModelAndView("/blog/delete","blog",blog);
+        return new ModelAndView("/blog/delete", "blog", blog);
     }
 
     @PostMapping("/delete")
-    public String deleteBlog(Blog blog, RedirectAttributes ra, @RequestParam String submit){
-        if (submit.equals("Delete")){
+    public String deleteBlog(Blog blog, RedirectAttributes ra, @RequestParam String submit) {
+        if (submit.equals("Delete")) {
             blogService.remove(blog.getId());
-            ra.addFlashAttribute("success","Deleted blog successfully");
+            ra.addFlashAttribute("success", "Deleted blog successfully");
         }
         return "redirect:/";
     }

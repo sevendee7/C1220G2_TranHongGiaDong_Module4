@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header::header}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+    <h3> Confirm to delete ? </h3>
+    <form th:action="@{/delete}" th:object="${discount}"
+          method="POST" novalidate="novalidate">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="form-group">
+            <label for="name">Discount's Name</label>
+            <input type="text" class="form-control" id="name" th:field="*{name}" readonly/>
+        </div>
+        <div class="form-group">
+            <label for="detail">Detail</label>
+            <input type="text" class="form-control" id="detail" th:field="*{detail}" readonly>
+        </div>
+        <input class="btn btn-danger" type="submit" name="submit" value="Delete"/>
+        <input class="btn btn-primary" type="submit" name="submit" value="Cancel"/>
+    </form>
+</div>
+</body>
+</html>

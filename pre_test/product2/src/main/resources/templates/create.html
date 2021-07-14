@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New Item</title>
+</head>
+<body>
+<form th:action="@{/save-item}" th:object="${item}"
+      method="POST" novalidate="novalidate">
+    <fieldset>
+        <legend>Create Item</legend>
+        <label for="name">Item Name</label>
+        <input id="name" type="text" th:field="*{name}"/>
+        <br><br>
+        <label for="postDate">Date Publish</label>
+        <input id="postDate" type="date" th:field="*{publishDate}"/>
+        <br><br>
+        <button type="submit" >Submit</button>
+    </fieldset>
+</form>
+</body>
+</html>

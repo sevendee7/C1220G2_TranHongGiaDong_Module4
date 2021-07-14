@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout/header::header}">
+    <style>
+        body {
+            background-image: url("/static/tropical-beach-and-palm-trees-1200x627.jpg");
+            background-position: right bottom;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body>
+<div class="row head" style="background-image: url('/head-logo.png'); background-repeat: no-repeat;">
+    <div class="col-3">
+        <img src="/logo.png" alt="Logo">
+    </div>
+    <div class="col-6"></div>
+    <div class="col-3 text-center" style="line-height: 150px; font-size: 20px">
+        <b>Tran Hong Gia Dong - C1220G2</b>
+    </div>
+</div>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-info">
+        <a class="navbar-brand" href="#" style="margin: 0 20px">Customer's list </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" style="margin: 0 20px" th:href="@{/}"><i class="fas fa-home"></i>  Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" style="margin: 0 20px" th:href="@{/customer/create}"><i class="fas fa-plus-circle"></i>  Create New Customer <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <form th:action="@{/customer/search}" class="form-inline my-2 my-lg-0" method="get">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search by name" aria-label="Search" name="keyword">
+                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit" style="color: #212529">Search</button>
+            </form>
+        </div>
+    </nav>
+</div>
+<div class="notify">
+    <!--    /*@thymesVar id="success" type="AppConfiguration"*/-->
+    <div th:if="${success}">
+        <h1 style="color: steelblue; text-align: center" th:text="${success}"></h1>
+    </div>
+</div>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+        <th>No</th>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Date of Birth</th>
+        <th>Gender</th>
+        <th>ID Card</th>
+        <th>Phone Number</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th colspan="3" style="text-align: center">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customer,rowStat : ${listCustomer}">
+        <td th:text="${rowStat.count}"></td>
+        <td th:text="${customer.id}"></td>
+        <td th:text="${customer.customerType.name}"></td>
+        <td th:text="${customer.name}"></td>
+        <td th:text="${customer.birthday}"></td>
+        <th:block th:if="${customer.gender} == true ">
+            <td th:text="Male"></td>
+        </th:block>
+        <th:block th:if="${customer.gender} == false">
+            <td th:text="Female"></td>
+        </th:block>
+        <td th:text="${customer.idCard}"></td>
+        <td th:text="${customer.phone}"></td>
+        <td th:text="${customer.email}"></td>
+        <td th:text="${customer.address}"></td>
+        <td>
+            <a th:href="@{/customer/edit/__${customer.id}__ }"><i class="fas fa-edit"></i> Edit</a>
+        </td>
+        <td>
+            <a th:href="@{/customer/delete/__${customer.id}__ }"><i class="fas fa-trash"></i> Delete</a>
+        </td>
+        <td>
+            <a th:href="@{/customer/view/__${customer.id}__ }"><i class="fas fa-eye"></i> View</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div style="text-align: center">
+    <a th:href="@{/customer/search(page=${listCustomer.number - 1},keyword=${keyword})}" th:if="${listCustomer.hasPrevious()}">Previous  <i class="fas fa-arrow-left"></i></a>
+    <span th:text="${listCustomer.number + 1}"></span>/<span th:text="${listCustomer.totalPages}"></span>
+    <a th:href="@{/customer/search(page=${listCustomer.number + 1},keyword=${keyword})}" th:if="${listCustomer.hasNext()}"><i class="fas fa-arrow-right"></i>  Next</a>
+</div>
+<footer th:replace="~{layout/footer :: footer}"></footer>
+</body>
+</html>

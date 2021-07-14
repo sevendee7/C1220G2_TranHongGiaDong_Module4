@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/add-course/save}" method="get">
+<div class="form-group">
+    <input type="hidden" th:value="${studentExist.id}" name="studentId">
+    <input type="text" th:value="${studentExist.name}" readonly/>
+    <label for="education">Course</label>
+    <select class="form-control" name="courseId" id="education">
+        <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+    </select>
+</div>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

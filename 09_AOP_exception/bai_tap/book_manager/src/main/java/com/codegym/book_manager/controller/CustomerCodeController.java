@@ -39,7 +39,7 @@ public class CustomerCodeController {
     }
 
     @GetMapping("/{id}/rent")
-    public String borrowBook(@PathVariable Integer id, Model model) throws OutOfStockException {
+    public String rentBook(@PathVariable Integer id, Model model) throws OutOfStockException {
         Book book = bookService.findById(id);
         Integer quantity = book.getQuantity();
         if (quantity == 0) {

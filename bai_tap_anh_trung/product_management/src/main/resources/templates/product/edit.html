@@ -26,6 +26,9 @@
         <label>Price</label>
         <input type="text" th:field="*{price}"/>
         <br><br>
+        <label>Detail</label>
+        <input type="text" th:field="*{productDetail.description}"/>
+        <br><br>
         <label>Category</label>
         <select th:field="*{category}">
             <option th:each="cate : ${categories}" th:value="${cate.id}" th:text="${cate.name}"></option>

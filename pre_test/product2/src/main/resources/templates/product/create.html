@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New Product</title>
+</head>
+<body>
+<form th:action="@{/product/save}" th:object="${product}"
+      method="POST" novalidate="novalidate">
+    <fieldset>
+        <legend>Create Customer</legend>
+        <label for="name">Product's Name</label>
+        <input id="name" type="text" th:field="*{name}"/>
+        <br><br>
+        <label for="color">Product's Color</label>
+        <select id="color" th:field="*{color}">
+            <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}"></option>
+        </select>
+        <br><br>
+        <label for="description">Product's Description</label>
+        <input id="description" type="text" th:field="*{description}"/>
+        <br><br>
+        <label for="brand">Product's Brand</label>
+        <input id="brand" type="text" th:field="*{brand}"/>
+        <br><br>
+        <label for="manu">Product's Manufactured</label>
+        <input id="manu" type="text" th:field="*{manufactured}"/>
+        <br><br>
+        <label for="price">Product's Price</label>
+        <input id="price" type="text" th:field="*{price}"/>
+        <br><br>
+        <label for="cate">Product's Category</label>
+        <select id="cate" th:field="*{category}">
+            <option th:each="cate : ${categories}" th:value="${cate.id}" th:text="${cate.name}"></option>
+        </select>
+        <br><br>
+        <button type="submit" >Submit</button>
+    </fieldset>
+</form>
+</body>
+</html>

@@ -6,6 +6,11 @@
 </head>
 <body>
 <h1>Your Cart</h1>
+<button>
+    <a th:href="@{/product}">
+        Back to product list
+    </a>
+</button>
 <form th:action="@{/product}" th:object="${cart}" method="post">
     <h3>Total Items: <span th:text="${cart.countItemQuantity()}"></span></h3>
     <h3>Total Products: <span th:text="${cart.countProductQuantity()}"></span></h3>

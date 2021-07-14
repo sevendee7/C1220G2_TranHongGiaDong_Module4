@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table style="border: 1px solid black; border-collapse: collapse">
+    <thead>
+    <tr>
+        <th> ID </th>
+        <th> Name </th>
+        <th> Published Date </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item,rowStat : ${items}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.publishDate}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
